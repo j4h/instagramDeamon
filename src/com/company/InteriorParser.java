@@ -45,10 +45,10 @@ public List<User> parseUsernames () throws IOException {
 
     List<String> usersLeavedComment = new ArrayList<>();
 
-        for ( int i = 0; i < parsedUserList.size(); i++ ) {
-            if (!usersLeavedComment.contains(parsedUserList.get(i)))  {
+        for ( String aParsedUserList : parsedUserList ) {
+            if (!usersLeavedComment.contains(aParsedUserList)) {
 
-                usersLeavedComment.add(parsedUserList.get(i));
+                usersLeavedComment.add(aParsedUserList);
             }
         }
 
@@ -60,11 +60,11 @@ public List<User> parseUsernames () throws IOException {
 
         List<String> uniqueUserList = new ArrayList<>();
 
-        for ( int i = 0; i < userArrayList.size(); i++ ) {
+        for ( User anUserArrayList : userArrayList ) {
 
-            if (!uniqueUserList.contains(userArrayList.get(i).getUsername())) {
+            if (!uniqueUserList.contains(anUserArrayList.getUsername())) {
 
-                uniqueUserList.add(userArrayList.get(i).getUsername());
+                uniqueUserList.add(anUserArrayList.getUsername());
             }
 
         }
