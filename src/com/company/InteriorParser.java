@@ -1,121 +1,59 @@
 package com.company;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class InteriorParser {
 
-private List <User> userArrayList;
-private List <String> uniqueUserLeavedComment;
+
+private Helper helper = new Helper();
+
+private List <User> userArrayList = new ArrayList<>();
+private Set<String> uniqueUserComeFromTag = new HashSet<>();
+private List <User> taggedUsernameComments = new ArrayList<>();
+private List <String> uniqueUsernames = new ArrayList<>();
+private List <String> newFollowersFromTag = new ArrayList<>();
+private List <Follower> fullNewFollowersList = new ArrayList<>();
 
 
-public List<User> parseUsernames () throws IOException {
+    void countAndShowResults() {
 
-    FileParser fileParser = new FileParser();
-    userArrayList = fileParser.parseFromFile(fileParser.getFileSushi());
+    //convert data from .csv file to list of objects
+    parse();
 
-    uniqueUserLeavedComment = new ArrayList<>();
+    //make all counting and apply them to vars
+    countDataAndFulfillVariables();
 
-
-    for ( int i = 0; i < userArrayList.size() - 1; i++ ) {
-
-        String comment = userArrayList.get(i).getComment();
-
-        for (int j = i+1; j<userArrayList.size(); j++) {
-            if (comment.contains(userArrayList.get(j).getUsername())) {
-
-                List<User> sublistUsers = userArrayList.subList(0, userArrayList.indexOf(userArrayList.get(j)));
-                List<String> sublistUsernames = new ArrayList<>();
-                for (User user : sublistUsers) {
-                    sublistUsernames.add(user.getUsername());
-                }
-
-                if (! sublistUsernames.contains(userArrayList.get(j).getUsername())) {
-                    uniqueUserLeavedComment.add(userArrayList.get(j).getUsername());
-                }
-            }
-        }
-
-    }
-
+    //show results in console
     printInfo();
 
-    return userArrayList;
-}
-
-    public List<User> parseTaggedUsernamesComments() {
-
-        List<User> taggedUsersComments = new ArrayList<>();
-
-        for ( String aParsedUserList : uniqueUserLeavedComment ) {
-
-            for (User user : userArrayList) {
-                if (user.getUsername().equals(aParsedUserList)) {
-                    taggedUsersComments.add(user);
-                }
-            }
-        }
-
-        return taggedUsersComments;
     }
 
 
-    public List<String> parseUniqueUsernamesLeavedComment() {
-
-        List<String> usersLeavedComment = new ArrayList<>();
-
-        for ( String aParsedUserList : uniqueUserLeavedComment ) {
-
-            if (!usersLeavedComment.contains(aParsedUserList)) {
-
-                usersLeavedComment.add(aParsedUserList);
-            }
-        }
-
-        System.out.println(usersLeavedComment);
-
-        return usersLeavedComment;
+    //parse and fulfill List with data from .csv file
+    private void parse () {
+        userArrayList = helper.parseUsersFromFile();
     }
 
 
-    public List<String> parseUniqueUsernamesFullList () {
+    //apply all counting functions to vars
+    private void countDataAndFulfillVariables() {
 
-        List<String> uniqueUserList = new ArrayList<>();
+    uniqueUserComeFromTag = helper.getUniqueUserComeFromTag(userArrayList);
+    uniqueUsernames = helper.getUniqueUsernamesFullList(userArrayList);
+    taggedUsernameComments = helper.getTaggedUsernamesComments(userArrayList, uniqueUserComeFromTag);
 
-        for ( User anUserArrayList : userArrayList ) {
-
-            if (!uniqueUserList.contains(anUserArrayList.getUsername())) {
-
-                uniqueUserList.add(anUserArrayList.getUsername());
-            }
-
-        }
-
-        return uniqueUserList;
+    //fullNewFollowersList = helper.getNewFollowersList();
+    //newFollowersFromTag = helper.getNewFollowersFromTag(uniqueUserComeFromTag, fullNewFollowersList);
 
     }
 
 
-    public void printInfo () {
+    //print info in console
+    private void printInfo () {
 
-    List<String> uniqueUsersList = parseUniqueUsernamesFullList();
-    List<String> uniqueUsersLeavedComment = parseUniqueUsernamesLeavedComment();
-    List<User> taggedUsernamesComments = parseTaggedUsernamesComments();
-
-    float uniqueCommentPercent = ((float)uniqueUsersLeavedComment.size()/(float)uniqueUsersList.size()) * 100;
-    float taggedUserCommentsPercent = (float)taggedUsernamesComments.size() / (float)userArrayList.size() * 100;
-
-    System.out.println("Всего написано: " + userArrayList.size() + " комментариев");
-    System.out.println("Из них написанных после тэга в комменте: " + taggedUsernamesComments.size() + " комментариев, что составляет " +
-        taggedUserCommentsPercent + "% от общего количества комментариев "    );
-    System.out.println("Всего уникальных участников: " + uniqueUsersList.size() + " человек");
-    System.out.println("Из которых пришло по тэгу в комменте: " + uniqueUsersLeavedComment.size() + " человек, что составляет " +
-    uniqueCommentPercent + "% от общего количества уникальных участников");
-
-
+        helper.printInfo(uniqueUserComeFromTag.size(), uniqueUsernames.size(), taggedUsernameComments.size(),
+                userArrayList.size());
     }
-
 
 
 

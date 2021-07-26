@@ -1,6 +1,5 @@
 package com.company;
 
-import com.opencsv.bean.CsvBindByName;
 import com.opencsv.bean.CsvBindByPosition;
 
 public class User {
@@ -17,7 +16,7 @@ public class User {
     @CsvBindByPosition(position = 2)
     private String date;
 
-    public String getUsername() {
+    String getUsername() {
         return username;
     }
 
@@ -25,27 +24,27 @@ public class User {
         this.username = username;
     }
 
-    public String getComment() {
+    String getComment() {
         return comment;
     }
 
-    public void setComment(String comment) {
+    void setComment(String comment) {
         this.comment = comment;
     }
 
-    public int getId() {
+    int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    void setId(int id) {
         this.id = id;
     }
 
-    public String getDate() {
+    String getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    void setDate(String date) {
         this.date = date;
     }
 

@@ -9,37 +9,53 @@ import java.util.List;
 
 public class FileParser {
 
-    private File file = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/comments.csv");
-    private File fileSushi = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/commentsSusi.csv");
+    private File file = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/csv/comments.csv");
+    private File fileSushi = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/csv/commentsSusi.csv");
+    private File dinner = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/csv/dinner.csv");
+    private File followersList = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/csv/followers.csv");
+    private File updFollowersList = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/csv/updFollowers.csv");
 
 
-    public List<User> parseFromFile(File file) throws IOException {
+    List<User> parseUsers (File file) throws IOException {
 
-        List<User> userList = new CsvToBeanBuilder(new FileReader(file))
+        return (List<User>) new CsvToBeanBuilder(new FileReader(file))
                 .withType(User.class)
                 .withSkipLines(1)
                 .withSeparator(';')
                 .build()
                 .parse();
 
-        return userList;
+    }
+
+    List<Follower> parseFollowers (File file) throws IOException {
+
+        return (List<Follower>) new CsvToBeanBuilder(new FileReader(file))
+                .withType(Follower.class)
+                .withSkipLines(1)
+                .withSeparator(',')
+                .build()
+                .parse();
 
     }
 
-    public File getFile() {
+    File getFile() {
         return file;
     }
 
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    public File getFileSushi() {
+    File getFileSushi() {
         return fileSushi;
     }
 
-    public void setFileSushi(File fileSushi) {
-        this.fileSushi = fileSushi;
+    File getDinner() {
+        return dinner;
+    }
+
+    File getFollowersList() {
+        return followersList;
+    }
+
+    File getUpdFollowersList() {
+        return updFollowersList;
     }
 }
 
