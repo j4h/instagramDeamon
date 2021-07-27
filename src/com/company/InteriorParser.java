@@ -7,9 +7,9 @@ public class InteriorParser {
 
 private Helper helper = new Helper();
 
-private List <User> userArrayList = new ArrayList<>();
+private List <Comment> commentArrayList = new ArrayList<>();
 private Set<String> uniqueUserComeFromTag = new HashSet<>();
-private List <User> taggedUsernameComments = new ArrayList<>();
+private List <Comment> taggedUsernameComments = new ArrayList<>();
 private List <String> uniqueUsernames = new ArrayList<>();
 private List <String> newFollowersFromTag = new ArrayList<>();
 private List <Follower> fullNewFollowersList = new ArrayList<>();
@@ -31,16 +31,16 @@ private List <Follower> fullNewFollowersList = new ArrayList<>();
 
     //parse and fulfill List with data from .csv file
     private void parse () {
-        userArrayList = helper.parseUsersFromFile();
+        commentArrayList = helper.parseUsersFromFile();
     }
 
 
     //apply all counting functions to vars
     private void countDataAndFulfillVariables() {
 
-    uniqueUserComeFromTag = helper.getUniqueUserComeFromTag(userArrayList);
-    uniqueUsernames = helper.getUniqueUsernamesFullList(userArrayList);
-    taggedUsernameComments = helper.getTaggedUsernamesComments(userArrayList, uniqueUserComeFromTag);
+    uniqueUserComeFromTag = helper.getUniqueUserComeFromTag(commentArrayList);
+    uniqueUsernames = helper.getUniqueUsernamesFullList(commentArrayList);
+    taggedUsernameComments = helper.getTaggedUsernamesComments(commentArrayList, uniqueUserComeFromTag);
 
     //fullNewFollowersList = helper.getNewFollowersList();
     //newFollowersFromTag = helper.getNewFollowersFromTag(uniqueUserComeFromTag, fullNewFollowersList);
@@ -52,7 +52,7 @@ private List <Follower> fullNewFollowersList = new ArrayList<>();
     private void printInfo () {
 
         helper.printInfo(uniqueUserComeFromTag.size(), uniqueUsernames.size(), taggedUsernameComments.size(),
-                userArrayList.size());
+                commentArrayList.size());
     }
 
 

@@ -16,10 +16,10 @@ public class FileParser {
     private File updFollowersList = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/csv/updFollowers.csv");
 
 
-    List<User> parseUsers (File file) throws IOException {
+    List<Comment> parseUsers (File file) throws IOException {
 
-        return (List<User>) new CsvToBeanBuilder(new FileReader(file))
-                .withType(User.class)
+        return (List<Comment>) new CsvToBeanBuilder(new FileReader(file))
+                .withType(Comment.class)
                 .withSkipLines(1)
                 .withSeparator(';')
                 .build()

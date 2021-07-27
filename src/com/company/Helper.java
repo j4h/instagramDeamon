@@ -11,17 +11,17 @@ public class Helper {
     private FileParser fileParser = new FileParser();
 
 
-    List<User> parseUsersFromFile() {
+    List<Comment> parseUsersFromFile() {
 
-        List<User> userArrayList = new ArrayList<>();
+        List<Comment> commentArrayList = new ArrayList<>();
 
         try {
-            userArrayList = fileParser.parseUsers(fileParser.getFile());
+            commentArrayList = fileParser.parseUsers(fileParser.getFile());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return userArrayList;
+        return commentArrayList;
     }
 
     private List<Follower> parseFollowersFromFile() {
@@ -52,27 +52,27 @@ public class Helper {
 
 
     //check each comment with tag to clarify if tagged user leaves comment (appears in list after tag)
-    Set<String> getUniqueUserComeFromTag (List<User> userArrayList) {
+    Set<String> getUniqueUserComeFromTag (List<Comment> commentArrayList) {
 
         Set<String> uniqueUserComeFromTag = new HashSet<>();
 
-        for ( int i = 0; i < userArrayList.size() - 1; i++ ) {
+        for ( int i = 0; i < commentArrayList.size() - 1; i++ ) {
 
-            String comment = userArrayList.get(i).getComment();
+            String comment = commentArrayList.get(i).getComment();
 
-            for (int j = i+1; j<userArrayList.size(); j++) {
+            for ( int j = i+1; j< commentArrayList.size(); j++) {
 
-                if (comment.contains(userArrayList.get(j).getUsername())) {
+                if (comment.contains(commentArrayList.get(j).getUsername())) {
 
-                    List<User> sublistUsers = userArrayList.subList(0, userArrayList.indexOf(userArrayList.get(j)));
+                    List<Comment> sublistComments = commentArrayList.subList(0, commentArrayList.indexOf(commentArrayList.get(j)));
                     List<String> sublistUsernames = new ArrayList<>();
 
-                    for (User user : sublistUsers) {
+                    for ( Comment user : sublistComments ) {
                         sublistUsernames.add(user.getUsername());
                     }
 
-                    if (! sublistUsernames.contains(userArrayList.get(j).getUsername())) {
-                        uniqueUserComeFromTag.add(userArrayList.get(j).getUsername());
+                    if (! sublistUsernames.contains(commentArrayList.get(j).getUsername())) {
+                        uniqueUserComeFromTag.add(commentArrayList.get(j).getUsername());
                     }
                 }
             }
@@ -81,15 +81,15 @@ public class Helper {
         return uniqueUserComeFromTag;
     }
 
-    List<String> getUniqueUsernamesFullList(List<User> userArrayList) {
+    List<String> getUniqueUsernamesFullList(List<Comment> commentArrayList) {
 
         List<String> uniqueUserList = new ArrayList<>();
 
-        for ( User anUserArrayList : userArrayList ) {
+        for ( Comment anCommentArrayList : commentArrayList ) {
 
-            if (!uniqueUserList.contains(anUserArrayList.getUsername())) {
+            if (!uniqueUserList.contains(anCommentArrayList.getUsername())) {
 
-                uniqueUserList.add(anUserArrayList.getUsername());
+                uniqueUserList.add(anCommentArrayList.getUsername());
             }
 
         }
@@ -99,15 +99,15 @@ public class Helper {
     }
 
     //create list of comments, so we can count how many tagged users leaved comments
-    List<User> getTaggedUsernamesComments(List<User> userArrayList, Set<String> uniqueUserComeFromTag) {
+    List<Comment> getTaggedUsernamesComments(List<Comment> commentArrayList, Set<String> uniqueUserComeFromTag) {
 
-        List<User> taggedUsersComments = new ArrayList<>();
+        List<Comment> taggedUsersComments = new ArrayList<>();
 
         for ( String aParsedUserList : uniqueUserComeFromTag ) {
 
-            for (User user : userArrayList) {
-                if (user.getUsername().equals(aParsedUserList)) {
-                    taggedUsersComments.add(user);
+            for ( Comment comment : commentArrayList ) {
+                if (comment.getUsername().equals(aParsedUserList)) {
+                    taggedUsersComments.add(comment);
                 }
             }
         }
