@@ -12,7 +12,7 @@ private Set<String> uniqueUserComeFromTag = new HashSet<>();
 private List <Comment> taggedUsernameComments = new ArrayList<>();
 private List <String> uniqueUsernames = new ArrayList<>();
 private List <String> newFollowersFromTag = new ArrayList<>();
-private List <Follower> fullNewFollowersList = new ArrayList<>();
+private List <String> fullNewFollowersList = new ArrayList<>();
 
 
     void countAndShowResults() {
@@ -31,7 +31,7 @@ private List <Follower> fullNewFollowersList = new ArrayList<>();
 
     //parse and fulfill List with data from .csv file
     private void parse () {
-        commentArrayList = helper.parseUsersFromFile();
+        commentArrayList = helper.parseCommentsFromFile();
     }
 
 
@@ -42,8 +42,8 @@ private List <Follower> fullNewFollowersList = new ArrayList<>();
     uniqueUsernames = helper.getUniqueUsernamesFullList(commentArrayList);
     taggedUsernameComments = helper.getTaggedUsernamesComments(commentArrayList, uniqueUserComeFromTag);
 
-    //fullNewFollowersList = helper.getNewFollowersList();
-    //newFollowersFromTag = helper.getNewFollowersFromTag(uniqueUserComeFromTag, fullNewFollowersList);
+    fullNewFollowersList = helper.getNewFollowersList(uniqueUsernames);
+    newFollowersFromTag = helper.getNewFollowersFromTag(uniqueUserComeFromTag, fullNewFollowersList);
 
     }
 
@@ -52,7 +52,7 @@ private List <Follower> fullNewFollowersList = new ArrayList<>();
     private void printInfo () {
 
         helper.printInfo(uniqueUserComeFromTag.size(), uniqueUsernames.size(), taggedUsernameComments.size(),
-                commentArrayList.size());
+                commentArrayList.size(), fullNewFollowersList.size(), newFollowersFromTag.size());
     }
 
 

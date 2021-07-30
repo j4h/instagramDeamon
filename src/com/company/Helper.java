@@ -11,12 +11,12 @@ public class Helper {
     private FileParser fileParser = new FileParser();
 
 
-    List<Comment> parseUsersFromFile() {
+    List<Comment> parseCommentsFromFile() {
 
         List<Comment> commentArrayList = new ArrayList<>();
 
         try {
-            commentArrayList = fileParser.parseUsers(fileParser.getFile());
+            commentArrayList = fileParser.parseComments(fileParser.getFileSushi());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -116,31 +116,34 @@ public class Helper {
     }
 
     //create list of new followers from competition
-    List<Follower> getNewFollowersList() {
+    List<String> getNewFollowersList(List<String> uniqueUserList) {
 
         List<Follower> oldFollowers = parseFollowersFromFile();
         List<Follower> updFollowers = parseUpdFollowersFromFile();
 
-        List<Follower> newlyFollowers = new ArrayList<>();
+        List <String> oldFollowersString = convertFollowersListToString(oldFollowers);
+        List <String> updFollowersString = convertFollowersListToString(updFollowers);
 
-        for (Follower follower : updFollowers )
+        List<String> newlyFollowers = new ArrayList<>();
 
-                if (! oldFollowers.contains(follower))
-                    updFollowers.add(follower);
+        for (String follower : updFollowersString )
+
+            if (!oldFollowersString.contains(follower) && uniqueUserList.contains(follower))
+                newlyFollowers.add(follower);
 
 
         return newlyFollowers;
     }
 
     //checking how many new followers we receive from tag mechanics
-    List<String> getNewFollowersFromTag(Set<String> uniqueUserComeFromTag, List<Follower> fullNewFollowerList) {
+    List<String> getNewFollowersFromTag(Set<String> uniqueUserComeFromTag, List<String> fullNewFollowerList) {
 
-        List<String> followerList = convertFollowersListToString(fullNewFollowerList);
+
         List<String> newFollowersFromTag = new ArrayList<>();
 
         for (String follower : uniqueUserComeFromTag ) {
 
-            if (followerList.contains(follower))
+            if (fullNewFollowerList.contains(follower))
                 newFollowersFromTag.add(follower);
         }
 
@@ -160,13 +163,14 @@ public class Helper {
 
     }
 
-    void printInfo (int uniqueUserComeFromTag, int uniqueUsernames, int taggedUsernameComments, int userArrayList) {
 
+    void printInfo (int uniqueUserComeFromTag, int uniqueUsernames, int taggedUsernameComments, int userArrayList,
+                    int newFollowersList, int newFollowersFromTag) {
 
         float uniqueCommentPercent = ((float) uniqueUserComeFromTag /(float)uniqueUsernames) * 100;
-        float taggedUserCommentsPercent = (float)taggedUsernameComments / (float)userArrayList * 100;
-        //float newFollowersPercent = (float)newFollowersList.size() / (float)uniqueUsernames.size() * 100;
-        //float newFollowersFromTagPercent = (float)newFollowersFromTag.size() / (float)newFollowersList.size() * 100;
+        float taggedUserCommentsPercent = ((float)taggedUsernameComments / (float)userArrayList) * 100;
+        float newFollowersPercent = ((float)newFollowersList / (float)uniqueUsernames) * 100;
+        float newFollowersFromTagPercent = ((float)newFollowersFromTag / (float)newFollowersList) * 100;
 
         System.out.println("Всего написано: " + userArrayList + " комментариев");
         System.out.println("Из них написанных после отметки: " + taggedUsernameComments + " комментариев, что составляет " +
@@ -175,10 +179,10 @@ public class Helper {
         System.out.println("Из которых пришло по отметке: " + uniqueUserComeFromTag + " человек, что составляет " +
                 (int)uniqueCommentPercent + "% от общего количества");
 
-    /* System.out.println("За период конкурса подписалось: " + newFollowersList.size() + " человек, что составляет " +
+         System.out.println("За период конкурса подписалось: " + newFollowersList + " человек, что составляет " +
                 (int)newFollowersPercent + "% от общего количества участников");
-      System.out.println("Из них пришли по отметке: " + newFollowersFromTag.size() + " человек, что составляет " +
-                (int)newFollowersFromTagPercent + "% от общего количества"); */
+         System.out.println("Из них подписались после отметки: " + newFollowersFromTag + " человек, что составляет " +
+                (int)newFollowersFromTagPercent + "% от общего количества подписавшихся");
 
 
 

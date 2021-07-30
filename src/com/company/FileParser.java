@@ -11,12 +11,11 @@ public class FileParser {
 
     private File file = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/csv/comments.csv");
     private File fileSushi = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/csv/commentsSusi.csv");
-    private File dinner = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/csv/dinner.csv");
     private File followersList = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/csv/followers.csv");
     private File updFollowersList = new File("/Users/lifeinlags/IdeaProjects/instagramDeamon/src/com/company/csv/updFollowers.csv");
 
 
-    List<Comment> parseUsers (File file) throws IOException {
+    List<Comment> parseComments(File file) throws IOException {
 
         return (List<Comment>) new CsvToBeanBuilder(new FileReader(file))
                 .withType(Comment.class)
@@ -44,10 +43,6 @@ public class FileParser {
 
     File getFileSushi() {
         return fileSushi;
-    }
-
-    File getDinner() {
-        return dinner;
     }
 
     File getFollowersList() {
