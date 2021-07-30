@@ -1,1 +1,1 @@
-# issueTracker there will appear API description soon
+# Измеряем насколько эффективен проведенный конкурс
